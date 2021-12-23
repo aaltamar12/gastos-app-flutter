@@ -25,6 +25,9 @@ class _MenuBar extends State<MenuBar> {
                 child: ButtonIconMenu(color, Icons.search, true)),
             Container(
                 margin: EdgeInsets.only(right: 5),
+                child: ButtonIconMenu(color, Icons.add, true)),
+            Container(
+                margin: EdgeInsets.only(right: 5),
                 child: ButtonIconMenu(color, Icons.donut_small_sharp, false))
           ],
         ),

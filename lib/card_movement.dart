@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gastos_app/movements/movement.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CardMovement extends StatelessWidget {
@@ -96,7 +97,12 @@ class CardMovement extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 Column(
-                  children: [gasto, gasto, gasto],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Movement("Salida a restaurante", 17000, icon, colorCategoy),
+                    Movement(textTitle, 1000, icon, colorCategoy),
+                    Movement(textTitle, 5000, icon, colorCategoy)
+                  ],
                 )
               ],
             ),
