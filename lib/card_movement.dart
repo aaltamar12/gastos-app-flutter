@@ -16,11 +16,6 @@ class CardMovement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Icon iconMovement = Icon(
-      icon,
-      size: 18.8,
-    );
-
     final textCardTitle = Row(
       children: [
         Row(
@@ -36,42 +31,6 @@ class CardMovement extends StatelessWidget {
           ],
         )
       ],
-    );
-
-    final gasto = Container(
-      decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(
-                  width: 1, color: Color.fromARGB(50, 165, 165, 165)))),
-      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 4),
-      child: Row(
-        children: [
-          Container(
-              child: Row(
-            children: [
-              Container(
-                  alignment: Alignment.center,
-                  height: 31.71,
-                  width: 31.71,
-                  decoration: BoxDecoration(
-                      color: colorCategoy,
-                      borderRadius: BorderRadius.circular(100)),
-                  child: iconMovement),
-              Container(
-                  padding: const EdgeInsets.only(left: 14.39),
-                  child: Text(textTitle))
-            ],
-          )),
-          Container(
-            padding: const EdgeInsets.only(left: 165),
-            child: Text(
-              "-\$${amount}",
-              style:
-                  GoogleFonts.roboto(textStyle: const TextStyle(fontSize: 14)),
-            ),
-          )
-        ],
-      ),
     );
 
     return Container(
@@ -111,12 +70,12 @@ class CardMovement extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)),
                 color:
                     today ? const Color(0XFD05D3BB) : const Color(0XFFEAEAEA)),
-            padding: EdgeInsets.only(left: 15),
+            padding: const EdgeInsets.only(left: 15),
             height: 18,
             width: 378,
             child: textCardTitle,
