@@ -54,17 +54,17 @@ class _HomeState extends State<Home> {
         //SUBMENU
         bottomNavigationBar: MenuBar(),
         //BOTON FLOTANTE A LA DERECHA
-        floatingActionButton: Container(
-          height: 60,
-          width: 60,
-          child: FloatingActionButton(
-            onPressed: () {
-              sumar();
-            },
-            backgroundColor: Color.fromARGB(255, 255, 193, 7),
-            child: const Icon(Icons.add, size: 26.25),
-          ),
-        ),
+        // floatingActionButton: Container(
+        //   height: 60,
+        //   width: 60,
+        //   child: FloatingActionButton(
+        //     onPressed: () {
+        //       sumar();
+        //     },
+        //     backgroundColor: Color.fromARGB(255, 255, 193, 7),
+        //     child: const Icon(Icons.add, size: 26.25),
+        //   ),
+        // ),
         //CUERPO DE LA APP
         body: BodyHome(contador: contador),
       ),

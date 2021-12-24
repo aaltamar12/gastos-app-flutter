@@ -26,8 +26,8 @@ class CardMovement extends StatelessWidget {
         Row(
           children: [
             Container(
-              margin: EdgeInsets.only(right: 2),
-              child: Icon(
+              margin: const EdgeInsets.only(right: 2),
+              child: const Icon(
                 Icons.calendar_today,
                 size: 9,
               ),
@@ -82,7 +82,7 @@ class CardMovement extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
           color: Colors.white,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 blurRadius: 15,
                 color: Color.fromARGB(30, 0, 0, 0),
@@ -91,15 +91,17 @@ class CardMovement extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 18),
-            padding: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 18),
+            padding: const EdgeInsets.only(top: 10),
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Movement("Salida a restaurante", 17000, icon, colorCategoy),
+                    Movement("Salida a restaurante con mi novia en Rodizio",
+                        166670000, icon, colorCategoy),
                     Movement(textTitle, 1000, icon, colorCategoy),
                     Movement(textTitle, 5000, icon, colorCategoy)
                   ],

@@ -17,7 +17,8 @@ class Movement extends StatelessWidget {
     );
 
     return Container(
-      decoration: BoxDecoration(
+      padding: EdgeInsets.only(bottom: 3),
+      decoration: const BoxDecoration(
           border: Border(
               bottom: BorderSide(
                   width: 1, color: Color.fromARGB(50, 165, 165, 165)))),
@@ -29,7 +30,6 @@ class Movement extends StatelessWidget {
               child: Row(
             children: [
               Container(
-                  alignment: Alignment.center,
                   height: 31.71,
                   width: 31.71,
                   decoration: BoxDecoration(
@@ -37,18 +37,30 @@ class Movement extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100)),
                   child: iconMovement),
               Container(
+                  // decoration: BoxDecoration(color: Colors.yellow),
+                  width: MediaQuery.of(context).size.height * .26,
                   padding: const EdgeInsets.only(left: 14.39),
-                  child: Text(textTitle))
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(textTitle)],
+                  )),
+              Container(
+                  //decoration: BoxDecoration(color: Colors.teal),
+                  width: MediaQuery.of(context).size.height * .115,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "- \$${amount}",
+                        style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(fontSize: 14)),
+                      ),
+                    ],
+                  ))
             ],
           )),
-          Container(
-            padding: const EdgeInsets.only(left: 165),
-            child: Text(
-              "-\$${amount}",
-              style:
-                  GoogleFonts.roboto(textStyle: const TextStyle(fontSize: 14)),
-            ),
-          )
         ],
       ),
     );
