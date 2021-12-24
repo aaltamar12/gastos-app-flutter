@@ -33,15 +33,15 @@ class _HomeState extends State<Home> {
           fontFamily: GoogleFonts.roboto().fontFamily,
           colorScheme: const ColorScheme.light(primary: Colors.white)),
       home: Scaffold(
-        backgroundColor: const Color(0XFFFAFAFA),
+        backgroundColor: const Color.fromRGBO(237, 237, 237, 1),
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 5, 211, 187),
+          backgroundColor: const Color.fromARGB(255, 5, 211, 187),
           toolbarHeight: 40,
           elevation: 0.0,
           actions: [
             Container(
-                margin: EdgeInsets.only(right: 15),
-                child: IconButton(
+                margin: const EdgeInsets.only(right: 15),
+                child: const IconButton(
                     onPressed: null,
                     icon: Icon(
                       IconsApp.user,
@@ -50,21 +50,21 @@ class _HomeState extends State<Home> {
                     )))
           ],
         ),
-        endDrawer: Drawer(),
+        endDrawer: const Drawer(),
         //SUBMENU
         bottomNavigationBar: MenuBar(),
         //BOTON FLOTANTE A LA DERECHA
-        floatingActionButton: Container(
-          height: 60,
-          width: 60,
-          child: FloatingActionButton(
-            onPressed: () {
-              sumar();
-            },
-            backgroundColor: Color.fromARGB(255, 255, 193, 7),
-            child: const Icon(Icons.add, size: 26.25),
-          ),
-        ),
+        // floatingActionButton: Container(
+        //   height: 60,
+        //   width: 60,
+        //   child: FloatingActionButton(
+        //     onPressed: () {
+        //       sumar();
+        //     },
+        //     backgroundColor: Color.fromARGB(255, 255, 193, 7),
+        //     child: const Icon(Icons.add, size: 26.25),
+        //   ),
+        // ),
         //CUERPO DE LA APP
         body: BodyHome(contador: contador),
       ),
