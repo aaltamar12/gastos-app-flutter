@@ -17,7 +17,7 @@ class Movement extends StatelessWidget {
     );
 
     return Container(
-      padding: EdgeInsets.only(bottom: 3),
+      padding: const EdgeInsets.only(bottom: 3),
       decoration: const BoxDecoration(
           border: Border(
               bottom: BorderSide(
@@ -26,19 +26,18 @@ class Movement extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-              child: Row(
+          Row(
             children: [
               Container(
-                  height: 31.71,
-                  width: 31.71,
+                  height: MediaQuery.of(context).size.height * 0.03739386793,
+                  width: MediaQuery.of(context).size.width * 0.0765942029,
                   decoration: BoxDecoration(
                       color: colorCategoy,
                       borderRadius: BorderRadius.circular(100)),
                   child: iconMovement),
               Container(
                   // decoration: BoxDecoration(color: Colors.yellow),
-                  width: MediaQuery.of(context).size.height * .26,
+                  width: MediaQuery.of(context).size.width * 0.5325603865,
                   padding: const EdgeInsets.only(left: 14.39),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -47,20 +46,20 @@ class Movement extends StatelessWidget {
                   )),
               Container(
                   //decoration: BoxDecoration(color: Colors.teal),
-                  width: MediaQuery.of(context).size.height * .115,
+                  width: MediaQuery.of(context).size.width * 0.2355555556,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "- \$${amount}",
+                        "- \$$amount",
                         style: GoogleFonts.roboto(
                             textStyle: const TextStyle(fontSize: 14)),
                       ),
                     ],
                   ))
             ],
-          )),
+          ),
         ],
       ),
     );
