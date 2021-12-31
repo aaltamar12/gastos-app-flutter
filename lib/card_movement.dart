@@ -1,17 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gastos_app/models/dateMovements.dart';
 import 'package:gastos_app/models/movementModel.dart';
 import 'package:gastos_app/movements/movement.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:color_convert/color_convert.dart';
+import 'package:intl/intl.dart';
 
 class CardMovement extends StatelessWidget {
   String dateTitle = "22-ago-2021";
   bool today = false;
   IconData icon = Icons.car_rental;
-  Color colorCategoy = const Color(0XFFFFFFFF);
-  List<Widget> movements;
+  Color colorCategory = const Color(0XFFFFFFFF);
+  DateMovement movements;
 
-  CardMovement(this.today, this.icon, this.colorCategoy, this.movements);
+  CardMovement(this.dateTitle, this.icon, this.colorCategory, this.movements) {
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+
+    if (dateTitle == formattedDate) {
+      today = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +32,16 @@ class CardMovement extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(right: 2),
-              child: const Icon(
+              child: Icon(
                 Icons.calendar_today,
+                color: today ? Colors.white : Colors.black,
                 size: 9,
               ),
             ),
-            Text(dateTitle)
+            Text(
+              dateTitle,
+              style: TextStyle(color: today ? Colors.white : Colors.black),
+            )
           ],
         )
       ],
@@ -43,7 +58,7 @@ class CardMovement extends StatelessWidget {
           boxShadow: const [
             BoxShadow(
                 blurRadius: 15,
-                color: Color.fromARGB(30, 0, 0, 0),
+                color: Color.fromARGB(28, 0, 0, 0),
                 offset: Offset(0, 2))
           ]),
       child: Stack(
@@ -57,12 +72,7 @@ class CardMovement extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Movement("Salida a restaurante con mi novia en Rodizios",
-                      166670000, icon, colorCategoy),
-                  Movement(textTitle, 1000, icon, colorCategoy),
-                  Movement(textTitle, 5000, icon, colorCategoy)
-                ],
+                children: _movements(movements),
               ),
             ),
           ),
@@ -86,9 +96,18 @@ class CardMovement extends StatelessWidget {
   List<Widget> _movements(data) {
     List<Widget> movements = [];
 
-    for (var movement in data) {
-      movements.add(CardMovement(true, Icons.shopping_bag_outlined,
-          const Color(0XFFA387F1), movements));
+    for (var movement in data.movements) {
+      print(movement.colorCategory.substring(1));
+      var colorCategory = convert.hex.rgb(movement.colorCategory.substring(1));
+
+      movements.add(Movement(
+          movement.title,
+          movement.value,
+          IconData(int.parse(movement.icon),
+              fontFamily: movement.iconFontFamily),
+          Color.fromRGBO(
+              colorCategory[0], colorCategory[1], colorCategory[2], 1),
+          movement.movementType));
     }
 
     return movements;

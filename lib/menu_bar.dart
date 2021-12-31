@@ -53,7 +53,7 @@ class _MenuBar extends State<MenuBar> {
                         boxShadow: [
                           BoxShadow(
                               blurRadius: 4,
-                              color: Color.fromARGB(40, 0, 0, 0),
+                              color: Color.fromARGB(38, 0, 0, 0),
                               offset: Offset(0, 2))
                         ]),
                     child: ButtonIconMenu(color, Icons.add, 32, true))),
