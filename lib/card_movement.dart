@@ -48,8 +48,7 @@ class CardMovement extends StatelessWidget {
     );
 
     return Container(
-      margin: const EdgeInsets.only(top: 21, left: 18, right: 18),
-      padding: const EdgeInsets.only(bottom: 5),
+      margin: const EdgeInsets.only(top: 21, left: 18, right: 18, bottom: 5),
       //height: MediaQuery.of(context).size.height * 0.1827830189,
       //width: MediaQuery.of(context).size.width * 0.9130434783,
       decoration: BoxDecoration(
@@ -97,7 +96,6 @@ class CardMovement extends StatelessWidget {
     List<Widget> movements = [];
 
     for (var movement in data.movements) {
-      print(movement.colorCategory.substring(1));
       var colorCategory = convert.hex.rgb(movement.colorCategory.substring(1));
 
       movements.add(Movement(

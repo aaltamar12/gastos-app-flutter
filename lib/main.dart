@@ -13,6 +13,8 @@ import 'header.dart';
 import 'menu_bar.dart';
 import 'package:http/http.dart' as http;
 
+import 'models/userModel.dart';
+
 Future<void> main(List<String> args) async {
   await dotenv.load();
   runApp(Home()); //ESPERA UN WIDGET
@@ -54,14 +56,11 @@ class BodyHome extends StatefulWidget {
 
 class _BodyHomeState extends State<BodyHome> {
   //RESPUESTA
+  late Future<dynamic> _user;
   late Future<List<DateMovement>> _movements;
-  late Future<String> _user;
   late var today = DateTime.now();
   late var fifteenDays = today.add(const Duration(days: -15));
 
-  Future<String> _getUser() async {
-    return "f97b02a8-7bbf-4e37-9773-319ca350f6b5";
-  }
   //FETCHER
 
   Future<List<DateMovement>> _getMovements() async {
@@ -117,7 +116,7 @@ class _BodyHomeState extends State<BodyHome> {
   @override
   void initState() {
     super.initState();
-    _user = _getUser();
+    _user = getUser();
     _movements = _getMovements();
   }
 
