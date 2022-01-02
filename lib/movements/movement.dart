@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class Movement extends StatelessWidget {
   String textTitle = "COMPRA";
-  int amount = 18000;
+  double amount = 18000;
   IconData icon = Icons.car_rental;
-  Color colorCategoy = const Color(0XFFFFFFFF);
+  Color colorCategory = const Color(0XFFFFFFFF);
+  String type;
 
-  Movement(this.textTitle, this.amount, this.icon, this.colorCategoy);
+  final currency = NumberFormat();
+  final cost = "cost";
+
+  Movement(
+      this.textTitle, this.amount, this.icon, this.colorCategory, this.type) {
+    //MEJORAR ESTA COMPARACION
+    if (type == cost) {
+      amount = -amount;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +43,7 @@ class Movement extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.03739386793,
                   width: MediaQuery.of(context).size.width * 0.0765942029,
                   decoration: BoxDecoration(
-                      color: colorCategoy,
+                      color: colorCategory,
                       borderRadius: BorderRadius.circular(100)),
                   child: iconMovement),
               Container(
@@ -52,7 +63,7 @@ class Movement extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "- \$$amount",
+                        currency.format(amount),
                         style: GoogleFonts.roboto(
                             textStyle: const TextStyle(fontSize: 14)),
                       ),
