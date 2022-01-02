@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class Movement extends StatelessWidget {
   String textTitle = "COMPRA";
-  int amount = 18000;
+  double amount = 18000;
   IconData icon = Icons.car_rental;
-  Color colorCategoy = const Color(0XFFFFFFFF);
+  Color colorCategory = const Color(0XFFFFFFFF);
+  String type;
 
-  Movement(this.textTitle, this.amount, this.icon, this.colorCategoy);
+  final currency = NumberFormat();
+  final cost = "cost";
+
+  Movement(
+      this.textTitle, this.amount, this.icon, this.colorCategory, this.type) {
+    //MEJORAR ESTA COMPARACION
+    if (type == cost) {
+      amount = -amount;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +28,7 @@ class Movement extends StatelessWidget {
     );
 
     return Container(
-      padding: EdgeInsets.only(bottom: 3),
+      padding: const EdgeInsets.only(bottom: 3),
       decoration: const BoxDecoration(
           border: Border(
               bottom: BorderSide(
@@ -26,19 +37,18 @@ class Movement extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-              child: Row(
+          Row(
             children: [
               Container(
-                  height: 31.71,
-                  width: 31.71,
+                  height: MediaQuery.of(context).size.height * 0.03739386793,
+                  width: MediaQuery.of(context).size.width * 0.0765942029,
                   decoration: BoxDecoration(
-                      color: colorCategoy,
+                      color: colorCategory,
                       borderRadius: BorderRadius.circular(100)),
                   child: iconMovement),
               Container(
                   // decoration: BoxDecoration(color: Colors.yellow),
-                  width: MediaQuery.of(context).size.height * .26,
+                  width: MediaQuery.of(context).size.width * 0.5325603865,
                   padding: const EdgeInsets.only(left: 14.39),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -47,20 +57,20 @@ class Movement extends StatelessWidget {
                   )),
               Container(
                   //decoration: BoxDecoration(color: Colors.teal),
-                  width: MediaQuery.of(context).size.height * .115,
+                  width: MediaQuery.of(context).size.width * 0.2355555556,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "- \$${amount}",
+                        currency.format(amount),
                         style: GoogleFonts.roboto(
                             textStyle: const TextStyle(fontSize: 14)),
                       ),
                     ],
                   ))
             ],
-          )),
+          ),
         ],
       ),
     );

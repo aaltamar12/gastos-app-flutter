@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'button_icon_menu.dart';
+import 'icons_app_icons.dart';
 
 class MenuBar extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class _MenuBar extends State<MenuBar> {
   @override
   Widget build(BuildContext context) {
     Color color = Colors.white;
+
     return Container(
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -43,15 +45,15 @@ class _MenuBar extends State<MenuBar> {
             Container(
                 margin: const EdgeInsets.only(right: 5),
                 child: Container(
-                    height: 49,
-                    width: 49,
+                    height: MediaQuery.of(context).size.height * 0.05778301895,
+                    width: MediaQuery.of(context).size.width * 0.11835748795,
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Color(0xFFFFC107),
                         boxShadow: [
                           BoxShadow(
                               blurRadius: 4,
-                              color: Color.fromARGB(40, 0, 0, 0),
+                              color: Color.fromARGB(38, 0, 0, 0),
                               offset: Offset(0, 2))
                         ]),
                     child: ButtonIconMenu(color, Icons.add, 32, true))),
@@ -62,8 +64,7 @@ class _MenuBar extends State<MenuBar> {
                     child: ButtonIconMenu(color, Icons.search, 28, true)),
                 Container(
                     margin: const EdgeInsets.only(right: 5),
-                    child: ButtonIconMenu(
-                        color, Icons.donut_small_sharp, 28, false))
+                    child: ButtonIconMenu(color, IconsApp.user, 28, false))
               ],
             )
           ],

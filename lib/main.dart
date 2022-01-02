@@ -1,12 +1,20 @@
 //IMPORTAR MATERIAL SIEMPRE
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gastos_app/icons_app_icons.dart';
+import 'package:gastos_app/models/dateMovements.dart';
+import 'package:gastos_app/models/movementModel.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'card_movement.dart';
 import 'header.dart';
 import 'menu_bar.dart';
+import 'package:http/http.dart' as http;
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
+  await dotenv.load();
   runApp(Home()); //ESPERA UN WIDGET
 }
 
@@ -17,15 +25,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int contador = 0;
-
-  void sumar() {
-    //ACTUALIZA EL WIDGET
-    setState(() {
-      contador++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,39 +33,10 @@ class _HomeState extends State<Home> {
           colorScheme: const ColorScheme.light(primary: Colors.white)),
       home: Scaffold(
         backgroundColor: const Color.fromRGBO(237, 237, 237, 1),
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 5, 211, 187),
-          toolbarHeight: 40,
-          elevation: 0.0,
-          actions: [
-            Container(
-                margin: const EdgeInsets.only(right: 15),
-                child: const IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      IconsApp.user,
-                      size: 22,
-                      color: Colors.white,
-                    )))
-          ],
-        ),
-        endDrawer: const Drawer(),
         //SUBMENU
         bottomNavigationBar: MenuBar(),
-        //BOTON FLOTANTE A LA DERECHA
-        // floatingActionButton: Container(
-        //   height: 60,
-        //   width: 60,
-        //   child: FloatingActionButton(
-        //     onPressed: () {
-        //       sumar();
-        //     },
-        //     backgroundColor: Color.fromARGB(255, 255, 193, 7),
-        //     child: const Icon(Icons.add, size: 26.25),
-        //   ),
-        // ),
         //CUERPO DE LA APP
-        body: BodyHome(contador: contador),
+        body: BodyHome(),
       ),
     );
   }
@@ -76,16 +46,81 @@ class _HomeState extends State<Home> {
 class BodyHome extends StatefulWidget {
   const BodyHome({
     Key? key,
-    required this.contador,
   }) : super(key: key);
-
-  final int contador;
 
   @override
   State<BodyHome> createState() => _BodyHomeState();
 }
 
 class _BodyHomeState extends State<BodyHome> {
+  //RESPUESTA
+  late Future<List<DateMovement>> _movements;
+  late Future<String> _user;
+  late var today = DateTime.now();
+  late var fifteenDays = today.add(const Duration(days: -15));
+
+  Future<String> _getUser() async {
+    return "f97b02a8-7bbf-4e37-9773-319ca350f6b5";
+  }
+  //FETCHER
+
+  Future<List<DateMovement>> _getMovements() async {
+    //USER ID
+    var user = await _user;
+
+    final query = {
+      'q[created_at_lteq]': '$today',
+      'q[created_at_gteq]': '$fifteenDays',
+    };
+
+    //API MOVEMENTS
+    var url = Uri.http(dotenv.get('API_URL', fallback: 'Not Found'),
+        "/api/movements/user/$user", query);
+
+    final response = await http.get(url).timeout(
+      const Duration(seconds: 15),
+      onTimeout: () {
+        throw ('Timeout request');
+      },
+    );
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final Map<String, dynamic> json = jsonDecode(body);
+
+      List<DateMovement> dateMovements = [];
+
+      json["movements"].forEach((date, dateMovement) {
+        List<MovementModel> movements = [];
+
+        for (var movement in dateMovement) {
+          movements.add(MovementModel(
+              movement["description"],
+              movement["movement_type"],
+              movement["title"],
+              double.parse(movement["value"]),
+              movement["user_id"],
+              movement["category"]["icon_font_family"],
+              movement["category"]["icon_default"],
+              movement["category"]["color_default"],
+              movement["created_at"]));
+        }
+        dateMovements.add(DateMovement(date, movements));
+      });
+
+      return dateMovements;
+    } else {
+      throw Exception("ERROR IN FETCH");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _user = _getUser();
+    _movements = _getMovements();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -93,25 +128,49 @@ class _BodyHomeState extends State<BodyHome> {
       children: [
         Container(
           margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * .2109375),
+              top: MediaQuery.of(context).size.height * 0.255580357143),
           height: MediaQuery.of(context).size.height * .725446429,
-          child: ListView(scrollDirection: Axis.vertical, children: [
-            CardMovement("22-ago-2021", "COMPRA", true, 18000,
-                Icons.shopping_bag_outlined, const Color(0XFFA387F1)),
-            CardMovement("22-ago-2021", "COMPRA", false, 3000,
-                Icons.fastfood_outlined, const Color(0XFFFF916E)),
-            CardMovement("22-ago-2021", "COMPRA", false, 88000,
-                Icons.contact_page_outlined, const Color(0XFF04EEEE)),
-            CardMovement("22-ago-2021", "COMPRA", false, 40000,
-                Icons.shopping_bag_outlined, const Color(0XFFA387F1)),
-            CardMovement("22-ago-2021", "COMPRA", false, 2500,
-                Icons.fastfood_outlined, const Color(0XFFFF916E)),
-            CardMovement("22-ago-2021", "COMPRA", false, 1100,
-                Icons.contact_page_outlined, const Color(0XFF04EEEE))
-          ]),
+          child: RefreshIndicator(
+            onRefresh: () {
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                      pageBuilder: (a, b, c) => Home(),
+                      transitionDuration: const Duration(seconds: 0)));
+              return Future.value(false);
+            },
+            child: FutureBuilder(
+              future: _movements,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(
+                      scrollDirection: Axis.vertical,
+                      children: _listMovements(snapshot.data));
+                } else if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return const Text("error");
+                }
+
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+          ),
         ),
         Header()
       ],
     );
+  }
+
+  List<Widget> _listMovements(data) {
+    List<Widget> movements = [];
+
+    for (var dateMovement in data) {
+      movements.add(CardMovement(dateMovement.date, Icons.shopping_bag_outlined,
+          const Color(0XFFA387F1), dateMovement));
+    }
+
+    return movements;
   }
 }
