@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gastos_app/icons_app_icons.dart';
 import 'package:gastos_app/models/dateMovements.dart';
 import 'package:gastos_app/models/movementModel.dart';
+import 'package:gastos_app/providers/dbProvider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'card_movement.dart';
@@ -93,6 +94,7 @@ class _BodyHomeState extends State<BodyHome> {
         List<MovementModel> movements = [];
 
         for (var movement in dateMovement) {
+          DBProvider.db.createMovement(MovementModel.fromJson(movement));
           movements.add(MovementModel(
               movement["description"],
               movement["movement_type"],

@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.17.0
   flutter_dotenv: ^5.0.2
   color_convert: ^1.0.2
+  sqflite: ^2.0.1
 
   
 
